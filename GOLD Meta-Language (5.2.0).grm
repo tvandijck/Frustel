@@ -1,0 +1,198 @@
+!-----------------------------------------------------------------------------------
+! GOLD Meta-Language
+!
+! This is the very simple grammar used to define grammars using the GOLD Parser.
+! The grammar was revised for version 5.2.0 of the GOLD Parser Builder. 
+! It was reverse engineered from the gp.dat that comes with the binaries.
+! 
+! www.devincook.com/goldparser 
+! -----------------------------------------------------------------------------------
+ 
+"Name"         = 'GOLD Meta-Language'
+"Version"      = '5.2.0'
+"Author"       = 'Devin Cook'
+"About"        = 'This grammar defines the GOLD Meta-Language.'
+
+"Start Symbol" = <Grammar>
+
+! ====================================================================
+! Special Terminals
+! ====================================================================
+
+{Parameter Ch}   = {Printable}    - ["] - ['']
+{Nonterminal Ch} = {Alphanumeric} + [_-.] + {Space} 
+{Literal Ch}     = {Printable}    - ['']       !Basically anything, DO NOT CHANGE!
+{Set Literal Ch} = {Printable}    - ['['']'] - ['']
+{Id Head}        = {Letter} + [_]
+{Id Tail}        = {Id Head} + {Digit}
+{Hex Digit}      = {Digit} + [abcdefABCDEF]
+
+DecNumber      	= {Digit}+
+HexNumber      	= 0x{Hex Digit}+
+Identifier		= {Id Head}{Id Tail}*
+Literal 		= '' {Literal Ch}+ ''
+Nonterminal		= '<' {Nonterminal Ch}+ '>'
+ParameterName	= '"' {Parameter Ch}+ '"' 
+SetLiteral		= '[' ({Set Literal Ch} | '' {Literal Ch}* '' )+ ']'
+
+! ====================================================================
+! Line-Based Grammar Declarations
+! ====================================================================
+
+{Whitespace Ch} = {Whitespace} - {CR} - {LF}
+
+Whitespace = {Whitespace Ch}+
+Newline    = {CR}{LF} | {CR} | {LF}  
+
+! ====================================================================
+! Comments
+! ====================================================================
+
+Comment Line  = '!'
+Comment Start = '!*'
+Comment End   = '*!'
+
+! ====================================================================
+! Rules
+! ====================================================================
+
+<Grammar>
+ 	::=	<nlo> <Content>
+
+<Content>
+ 	::=	<Content> <Definition>
+ 	|	<Definition>
+
+<Definition>
+ 	::=	<Param>
+ 	|	<Attribute Decl>
+ 	|	<Set Decl>
+ 	|	<Group Decl>
+ 	|	<Terminal Decl>
+ 	|	<Rule Decl>
+
+<nlo>
+ 	::=	Newline <nlo>
+ 	|	 
+
+<nl>
+ 	::=	Newline <nl>
+ 	|	Newline
+
+<Terminal Name>
+ 	::=	Identifier
+ 	|	Literal
+
+<Value List>
+ 	::=	<Value List> ',' <nlo> <Value Items>
+ 	|	<Value Items>
+
+<Value Items>
+ 	::=	<Value Items> <Value Item>
+ 	|	<Value Item>
+
+<Value Item>
+ 	::=	Identifier
+ 	|	Nonterminal
+ 	|	Literal
+
+<Param>
+ 	::=	ParameterName <nlo> '=' <Param Body> <nl>
+
+<Param Body>
+ 	::=	<Param Body> <nlo> '|' <Value List>
+ 	|	<Value List>
+
+<Attribute Decl>
+ 	::=	<Terminal Name> <nlo> '@=' '{' <Attribute List> '}' <nl>
+ 	|	<Terminal Name> Identifier <nlo> '@=' '{' <Attribute List> '}' <nl>
+
+<Attribute List>
+ 	::=	<Attribute List> ',' <nlo> <Attribute Item>
+ 	|	<Attribute Item>
+
+<Attribute Item>
+ 	::=	Identifier '=' Identifier
+ 	|	Identifier '=' '{' <Value List> '}'
+
+<Set Decl>
+ 	::=	'{' <ID Series> '}' <nlo> '=' <Set Exp> <nl>
+
+<Set Exp>
+ 	::=	<Set Exp> <nlo> '+' <Set Item>
+ 	|	<Set Exp> <nlo> '-' <Set Item>
+ 	|	<Set Item>
+
+<Set Item>
+ 	::=	SetLiteral
+ 	|	'{' <ID Series> '}'
+ 	|	'{' <Charcode List> '}'
+
+<ID Series>
+ 	::=	<ID Series> Identifier
+ 	|	Identifier
+
+<Charcode List>
+ 	::=	<Charcode List> ',' <nlo> <Charcode Item>
+ 	|	<Charcode Item>
+
+<Charcode Item>
+ 	::=	<Charcode Value>
+ 	|	<Charcode Value> '..' <Charcode Value>
+
+<Charcode Value>
+ 	::=	HexNumber
+ 	|	DecNumber
+
+<Group Decl>
+ 	::=	<Terminal Name> Identifier <nlo> '=' <Group Item> <nl>
+
+<Group Item>
+ 	::=	Identifier
+ 	|	Literal
+
+<Terminal Decl>
+ 	::=	<Terminal Name> <nlo> '=' <Terminal Body> <nl>
+
+<Terminal Body>
+ 	::=	<Terminal Body> <nlo> '|' <Reg Exp Seq>
+ 	|	<Reg Exp Seq>
+
+<Reg Exp Seq>
+ 	::=	<Reg Exp Seq> <Reg Exp Item>
+ 	|	<Reg Exp Item>
+
+<Reg Exp Item>
+ 	::=	<Set Item> <Kleene Opt>
+ 	|	Literal <Kleene Opt>
+ 	|	Identifier <Kleene Opt>
+ 	|	'(' <Sub Reg Exp> ')' <Kleene Opt>
+
+<Sub Reg Exp>
+ 	::=	<Sub Reg Exp> '|' <Reg Exp Seq>
+ 	|	<Reg Exp Seq>
+
+<Kleene Opt>
+ 	::=	'+'
+ 	|	'?'
+ 	|	'*'
+ 	|	 
+
+<Rule Decl>
+ 	::=	Nonterminal <nlo> '::=' <Handles> <nl>
+
+<Handles>
+ 	::=	<Handles> <nlo> '|' <Handle>
+ 	|	<Handle>
+
+<Handle>
+ 	::=	<Symbols>
+ 	|	'<>'
+
+<Symbols>
+ 	::=	<Symbols> <Symbol>
+ 	|	 
+
+<Symbol>
+ 	::=	<Terminal Name>
+ 	|	Nonterminal
