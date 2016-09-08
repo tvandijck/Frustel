@@ -27,13 +27,13 @@
 {Id Tail}        = {Id Head} + {Digit}
 {Hex Digit}      = {Digit} + [abcdefABCDEF]
 
-DecNumber      	= {Digit}+
-HexNumber      	= 0x{Hex Digit}+
-Identifier		= {Id Head}{Id Tail}*
-Literal 		= '' {Literal Ch}+ ''
-Nonterminal		= '<' {Nonterminal Ch}+ '>'
-ParameterName	= '"' {Parameter Ch}+ '"' 
-SetLiteral		= '[' ({Set Literal Ch} | '' {Literal Ch}* '' )+ ']'
+DecNumber        = {Digit}+
+HexNumber        = '0x'{Hex Digit}+
+Identifier       = {Id Head}{Id Tail}*
+Literal          = '' {Literal Ch}* ''
+Nonterminal      = '<' {Nonterminal Ch}+ '>'
+ParameterName    = '"' {Parameter Ch}+ '"' 
+SetLiteral       = '[' ({Set Literal Ch} | '' {Literal Ch}* '' )+ ']'
 
 ! ====================================================================
 ! Line-Based Grammar Declarations
@@ -42,7 +42,7 @@ SetLiteral		= '[' ({Set Literal Ch} | '' {Literal Ch}* '' )+ ']'
 {Whitespace Ch} = {Whitespace} - {CR} - {LF}
 
 Whitespace = {Whitespace Ch}+
-Newline    = {CR}{LF} | {CR} | {LF}  
+Newline    = {CR}{LF} | {CR} | {LF}
 
 ! ====================================================================
 ! Comments
@@ -57,142 +57,142 @@ Comment End   = '*!'
 ! ====================================================================
 
 <Grammar>
- 	::=	<nlo> <Content>
+    ::= <nlo> <Content>
 
 <Content>
- 	::=	<Content> <Definition>
- 	|	<Definition>
+    ::= <Content> <Definition>
+    |   <Definition>
 
 <Definition>
- 	::=	<Param>
- 	|	<Attribute Decl>
- 	|	<Set Decl>
- 	|	<Group Decl>
- 	|	<Terminal Decl>
- 	|	<Rule Decl>
+    ::= <Param>
+    |   <Attribute Decl>
+    |   <Set Decl>
+    |   <Group Decl>
+    |   <Terminal Decl>
+    |   <Rule Decl>
 
 <nlo>
- 	::=	Newline <nlo>
- 	|	 
+    ::= Newline <nlo>
+    |
 
 <nl>
- 	::=	Newline <nl>
- 	|	Newline
+    ::= Newline <nl>
+    |   Newline
 
 <Terminal Name>
- 	::=	Identifier
- 	|	Literal
+    ::= Identifier
+    |   Literal
 
 <Value List>
- 	::=	<Value List> ',' <nlo> <Value Items>
- 	|	<Value Items>
+    ::= <Value List> ',' <nlo> <Value Items>
+    |   <Value Items>
 
 <Value Items>
- 	::=	<Value Items> <Value Item>
- 	|	<Value Item>
+    ::= <Value Items> <Value Item>
+    |   <Value Item>
 
 <Value Item>
- 	::=	Identifier
- 	|	Nonterminal
- 	|	Literal
+    ::= Identifier
+    |   Nonterminal
+    |   Literal
 
 <Param>
- 	::=	ParameterName <nlo> '=' <Param Body> <nl>
+    ::= ParameterName <nlo> '=' <Param Body> <nl>
 
 <Param Body>
- 	::=	<Param Body> <nlo> '|' <Value List>
- 	|	<Value List>
+    ::= <Param Body> <nlo> '|' <Value List>
+    |   <Value List>
 
 <Attribute Decl>
- 	::=	<Terminal Name> <nlo> '@=' '{' <Attribute List> '}' <nl>
- 	|	<Terminal Name> Identifier <nlo> '@=' '{' <Attribute List> '}' <nl>
+    ::= <Terminal Name> <nlo> '@=' '{' <Attribute List> '}' <nl>
+    |   <Terminal Name> Identifier <nlo> '@=' '{' <Attribute List> '}' <nl>
 
 <Attribute List>
- 	::=	<Attribute List> ',' <nlo> <Attribute Item>
- 	|	<Attribute Item>
+    ::= <Attribute List> ',' <nlo> <Attribute Item>
+    |   <Attribute Item>
 
 <Attribute Item>
- 	::=	Identifier '=' Identifier
- 	|	Identifier '=' '{' <Value List> '}'
+    ::= Identifier '=' Identifier
+    |   Identifier '=' '{' <Value List> '}'
 
 <Set Decl>
- 	::=	'{' <ID Series> '}' <nlo> '=' <Set Exp> <nl>
+    ::= '{' <ID Series> '}' <nlo> '=' <Set Exp> <nl>
 
 <Set Exp>
- 	::=	<Set Exp> <nlo> '+' <Set Item>
- 	|	<Set Exp> <nlo> '-' <Set Item>
- 	|	<Set Item>
+    ::= <Set Exp> <nlo> '+' <Set Item>
+    |   <Set Exp> <nlo> '-' <Set Item>
+    |   <Set Item>
 
 <Set Item>
- 	::=	SetLiteral
- 	|	'{' <ID Series> '}'
- 	|	'{' <Charcode List> '}'
+    ::= SetLiteral
+    |   '{' <ID Series> '}'
+    |   '{' <Charcode List> '}'
 
 <ID Series>
- 	::=	<ID Series> Identifier
- 	|	Identifier
+    ::= <ID Series> Identifier
+    |   Identifier
 
 <Charcode List>
- 	::=	<Charcode List> ',' <nlo> <Charcode Item>
- 	|	<Charcode Item>
+    ::= <Charcode List> ',' <nlo> <Charcode Item>
+    |   <Charcode Item>
 
 <Charcode Item>
- 	::=	<Charcode Value>
- 	|	<Charcode Value> '..' <Charcode Value>
+    ::= <Charcode Value>
+    |   <Charcode Value> '..' <Charcode Value>
 
 <Charcode Value>
- 	::=	HexNumber
- 	|	DecNumber
+    ::= HexNumber
+    |   DecNumber
 
 <Group Decl>
- 	::=	<Terminal Name> Identifier <nlo> '=' <Group Item> <nl>
+    ::= <Terminal Name> Identifier <nlo> '=' <Group Item> <nl>
 
 <Group Item>
- 	::=	Identifier
- 	|	Literal
+    ::= Identifier
+    |   Literal
 
 <Terminal Decl>
- 	::=	<Terminal Name> <nlo> '=' <Terminal Body> <nl>
+    ::= <Terminal Name> <nlo> '=' <Terminal Body> <nl>
 
 <Terminal Body>
- 	::=	<Terminal Body> <nlo> '|' <Reg Exp Seq>
- 	|	<Reg Exp Seq>
+    ::= <Terminal Body> <nlo> '|' <Reg Exp Seq>
+    |   <Reg Exp Seq>
 
 <Reg Exp Seq>
- 	::=	<Reg Exp Seq> <Reg Exp Item>
- 	|	<Reg Exp Item>
+    ::= <Reg Exp Seq> <Reg Exp Item>
+    |   <Reg Exp Item>
 
 <Reg Exp Item>
- 	::=	<Set Item> <Kleene Opt>
- 	|	Literal <Kleene Opt>
- 	|	Identifier <Kleene Opt>
- 	|	'(' <Sub Reg Exp> ')' <Kleene Opt>
+    ::= <Set Item> <Kleene Opt>
+    |   Literal <Kleene Opt>
+    |   Identifier <Kleene Opt>
+    |   '(' <Sub Reg Exp> ')' <Kleene Opt>
 
 <Sub Reg Exp>
- 	::=	<Sub Reg Exp> '|' <Reg Exp Seq>
- 	|	<Reg Exp Seq>
+    ::= <Sub Reg Exp> '|' <Reg Exp Seq>
+    |   <Reg Exp Seq>
 
 <Kleene Opt>
- 	::=	'+'
- 	|	'?'
- 	|	'*'
- 	|	 
+    ::= '+'
+    |   '?'
+    |   '*'
+    |
 
 <Rule Decl>
- 	::=	Nonterminal <nlo> '::=' <Handles> <nl>
+    ::= Nonterminal <nlo> '::=' <Handles> <nl>
 
 <Handles>
- 	::=	<Handles> <nlo> '|' <Handle>
- 	|	<Handle>
+    ::= <Handles> <nlo> '|' <Handle>
+    |   <Handle>
 
 <Handle>
- 	::=	<Symbols>
- 	|	'<>'
+    ::= <Symbols>
+    |   '<>'
 
 <Symbols>
- 	::=	<Symbols> <Symbol>
- 	|	 
+    ::= <Symbols> <Symbol>
+    |
 
 <Symbol>
- 	::=	<Terminal Name>
- 	|	Nonterminal
+    ::= <Terminal Name>
+    |   Nonterminal
