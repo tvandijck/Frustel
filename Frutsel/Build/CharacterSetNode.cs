@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Frutsel
+﻿namespace Frutsel.Build
 {
     public class CharacterSetNode : Node
     {

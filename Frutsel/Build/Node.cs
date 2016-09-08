@@ -1,4 +1,4 @@
-﻿namespace Frutsel
+﻿namespace Frutsel.Build
 {
     public abstract class Node
     {

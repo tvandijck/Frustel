@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Frutsel
+namespace Frutsel.Build
 {
     public class ExpressionNode : Node
     {
