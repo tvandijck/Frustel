@@ -628,7 +628,7 @@ namespace GoldEngine
             }
             if (!BuildTables.Properties.Contains("Generated Date"))
             {
-                BuildTables.Properties.Add("Generated Date", Strings.Format(DateAndTime.Now, "yyyy-MM-dd HH:mm"));
+                BuildTables.Properties.Add("Generated Date", Strings.Format(DateTime.Now, "yyyy-MM-dd HH:mm"));
             }
             PopulateSaveCGTWarningTable();
         }
@@ -638,9 +638,9 @@ namespace GoldEngine
             if (!LoggedCriticalError())
             {
                 CancelTableBuild = false;
-                DateTime now = DateAndTime.Now;
+                DateTime now = DateTime.Now;
                 BuildDFA.Build();
-                DateTime endTime = DateAndTime.Now;
+                DateTime endTime = DateTime.Now;
                 Log.Add(SysLogSection.DFA, SysLogAlert.Detail, "DFA computation took: " + BuilderUtility.TimeDiffString(now, endTime));
             }
             CreateDFAPriorStateLists();
@@ -649,9 +649,9 @@ namespace GoldEngine
         public static void ComputeLALR()
         {
             CancelTableBuild = false;
-            DateTime now = DateAndTime.Now;
+            DateTime now = DateTime.Now;
             BuildLR.Build();
-            DateTime endTime = DateAndTime.Now;
+            DateTime endTime = DateTime.Now;
             Log.Add(SysLogSection.LALR, SysLogAlert.Detail, "LALR computation took: " + BuilderUtility.TimeDiffString(now, endTime));
             if (!LoggedCriticalError())
             {

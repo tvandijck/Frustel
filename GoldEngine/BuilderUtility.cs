@@ -477,7 +477,7 @@ namespace GoldEngine
         public static extern int ShellExecute(int hwnd, [MarshalAs(UnmanagedType.VBByRefStr)] string lpOperation, [MarshalAs(UnmanagedType.VBByRefStr)] string lpFile, [MarshalAs(UnmanagedType.VBByRefStr)] string lpParameters, [MarshalAs(UnmanagedType.VBByRefStr)] string lpDirectory, int nShowCmd);
         public static string TimeDiffString(DateTime StartTime, DateTime EndTime)
         {
-            return (Conversions.ToString(Conversion.Int((double)(((double)DateAndTime.DateDiff(DateInterval.Minute, StartTime, EndTime, FirstDayOfWeek.Sunday, FirstWeekOfYear.Jan1)) / 60.0))) + " Hours " + Conversions.ToString(Conversion.Int((long)(DateAndTime.DateDiff(DateInterval.Minute, StartTime, EndTime, FirstDayOfWeek.Sunday, FirstWeekOfYear.Jan1) % 60L))) + " Minutes " + Conversions.ToString(Conversion.Int((long)(DateAndTime.DateDiff(DateInterval.Second, StartTime, EndTime, FirstDayOfWeek.Sunday, FirstWeekOfYear.Jan1) % 60L))) + " Seconds");
+            return (Conversions.ToString(Conversion.Int((double)(((double)DateTime.DateDiff(DateInterval.Minute, StartTime, EndTime, FirstDayOfWeek.Sunday, FirstWeekOfYear.Jan1)) / 60.0))) + " Hours " + Conversions.ToString(Conversion.Int((long)(DateTime.DateDiff(DateInterval.Minute, StartTime, EndTime, FirstDayOfWeek.Sunday, FirstWeekOfYear.Jan1) % 60L))) + " Minutes " + Conversions.ToString(Conversion.Int((long)(DateTime.DateDiff(DateInterval.Second, StartTime, EndTime, FirstDayOfWeek.Sunday, FirstWeekOfYear.Jan1) % 60L))) + " Seconds");
         }
 
         public static string ToIdentifier(string Label, IDTypeCase TypeCase = IDTypeCase.Propercase, string ConvertSpaceChar = "", bool RemoveDashes = false)

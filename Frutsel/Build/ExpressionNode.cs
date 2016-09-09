@@ -2,7 +2,7 @@
 
 namespace Frutsel.Build
 {
-    public class ExpressionNode : Node
+    internal sealed class ExpressionNode : Node
     {
         private readonly Expression m_expression;
 

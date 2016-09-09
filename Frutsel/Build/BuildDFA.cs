@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Frutsel.Build
 {
-    public class BuildDFA : IDisposable
+    internal sealed class BuildDFA : IDisposable
     {
         private struct NfaAccept
         {
@@ -84,11 +84,11 @@ namespace Frutsel.Build
         private readonly List<NfaState> m_dfa = new List<NfaState>();
         private readonly int m_root;
 
-        public static void Build(GrammarTables result, IEnumerable<SymbolTerminal> terminals)
+        public static void Build(GrammarTables result, Grammar grammar)
         {
             using (var builder = new BuildDFA())
             {
-                builder.InternalBuild(terminals, result);
+                builder.InternalBuild(result, grammar);
             }
         }
 
@@ -117,10 +117,10 @@ namespace Frutsel.Build
             m_root = AddState();
         }
 
-        private void InternalBuild(IEnumerable<SymbolTerminal> terminals, GrammarTables result)
+        private void InternalBuild(GrammarTables result, Grammar grammar)
         {
             Console.WriteLine("Computing DFA States");
-            foreach (var terminal in terminals)
+            foreach (var terminal in grammar.BuildSymbols.Select(s=>s.Symbol).OfType<SymbolTerminal>())
             {
                 if (terminal.Expression == null)
                     continue;

@@ -2,7 +2,7 @@
 {
     public enum ESymbolType
     {
-        Nonterminal,
+        NonTerminal,
         Content,
         Noise,
         End,

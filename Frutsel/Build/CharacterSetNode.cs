@@ -1,6 +1,6 @@
 ﻿namespace Frutsel.Build
 {
-    public class CharacterSetNode : Node
+    internal sealed class CharacterSetNode : Node
     {
         private readonly CharacterSet m_characterSet;
 

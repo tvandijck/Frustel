@@ -1,6 +1,6 @@
 ﻿namespace Frutsel.Build
 {
-    public abstract class Node
+    internal abstract class Node
     {
         private readonly EKleene m_kleene;
 

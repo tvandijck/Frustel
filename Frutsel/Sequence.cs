@@ -14,7 +14,7 @@ namespace Frutsel
     }
 
 
-    public sealed class Sequence : IEnumerable<Node>
+    public sealed class Sequence : IEnumerable
     {
         private readonly List<Node> m_items = new List<Node>();
         private int m_priority = -1;
@@ -35,17 +35,17 @@ namespace Frutsel
             m_items.Add(new ExpressionNode(kleene, expression));
         }
 
-        public IEnumerator<Node> GetEnumerator()
+        internal IEnumerator<Node> Nodes
         {
-            return m_items.GetEnumerator();
+            get { return m_items.GetEnumerator(); }
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
-            return GetEnumerator();
+            return Nodes;
         }
 
-        public Automata CreateAutomata(BuildDFA buildDfa)
+        internal Automata CreateAutomata(BuildDFA buildDfa)
         {
             Debug.Assert(m_items.Count > 0);
 

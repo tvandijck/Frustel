@@ -5,6 +5,7 @@ namespace Frutsel
     public class Group
     {
         private readonly List<Group> m_nesting = new List<Group>();
+        private int m_tableIndex = -1;
 
         public string Name { get; set; }
         public Symbol Container { get; set; }
@@ -16,6 +17,12 @@ namespace Frutsel
         public List<Group> Nesting
         {
             get { return m_nesting; }
+        }
+
+        public int TableIndex
+        {
+            get { return m_tableIndex; }
+            internal set { m_tableIndex = value; }
         }
     }
 }

@@ -43,6 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Build\BuildLALR.cs" />
+    <Compile Include="Build\BuildSymbol.cs" />
     <Compile Include="CharacterSet.cs" />
     <Compile Include="Build\CharacterSetNode.cs" />
     <Compile Include="Build\BuildDFA.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Group.cs" />
     <Compile Include="EKleene.cs" />
     <Compile Include="Build\Node.cs" />
+    <Compile Include="Production.cs" />
     <Compile Include="SymbolEnd.cs" />
     <Compile Include="SymbolError.cs" />
     <Compile Include="SymbolGroupEnd.cs" />
@@ -69,6 +72,7 @@
     <Compile Include="Sequence.cs" />
     <Compile Include="Symbol.cs" />
     <Compile Include="ESymbolType.cs" />
+    <Compile Include="SymbolNonTerminal.cs" />
     <Compile Include="SymbolTerminal.cs" />
     <Compile Include="Token.cs" />
   </ItemGroup>

@@ -575,7 +575,7 @@ namespace GoldEngine
         {
             if (Config.InheritLookahead)
             {
-                bool flag;
+                bool flag = false;
                 for (short i = 0; (i < Config.CheckaheadCount()) & !flag; i = (short)(i + 1))
                 {
                     flag = !Config.Checkahead(i).Nullable;
@@ -635,6 +635,7 @@ namespace GoldEngine
                 }
                 num2 = (short)(num2 + 1);
             }
+
             do
             {
                 flag = false;
